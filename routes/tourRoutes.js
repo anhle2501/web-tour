@@ -21,6 +21,13 @@ router
   .get(authController.protect, tourController.getAll)
   .post(tourController.createTour);
 
+router.route('/distances/:latlng/unit/:unit').get(tourController.getDistances);
+
+router
+  .route('/tours-within/:distance/center/:latlng/unit/:unit')
+  .get(tourController.getTourWithin);
+// query thì nó vậy /tour-distance?distance=234&center=-40,45&unit=mi nhưng làm cách trên cho đẹp xài params
+
 router
   .route('/:id')
   .get(tourController.getTour)

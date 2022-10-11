@@ -141,6 +141,10 @@ tourSchema.pre(/^find/, function(next) {
   next();
 });
 
+tourSchema.index({ price: 1, ratingsAverage: -1 });
+tourSchema.index({ slug: 1 });
+tourSchema.index({ startLocation: '2dsphere' });
+
 tourSchema.virtual('reviews', {
   ref: 'Review',
   foreignField: 'tours',
@@ -171,13 +175,13 @@ tourSchema.post(/^find/, function(docs, next) {
   next();
 });
 
-// AGGREGATION MIDDLEWARE
-tourSchema.pre('aggregate', function(next) {
-  this.pipeline().unshift({ $match: { secretTour: { $ne: true } } });
+// // AGGREGATION MIDDLEWARE
+// tourSchema.pre('aggregate', function(next) {
+//   this.pipeline().unshift({ $match: { secretTour: { $ne: true } } });
 
-  // console.log(this.pipeline());
-  next();
-});
+//   // console.log(this.pipeline());
+//   next();
+// });
 
 const Tour = mongoose.model('Tour', tourSchema);
 
